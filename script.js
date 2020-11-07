@@ -19,7 +19,7 @@ $(document).ready(function () {
     loadSavedCities();
 
     var savedCities;
-    if(JSON.parse(localStorage.getItem('cities'))){
+    if (JSON.parse(localStorage.getItem('cities'))) {
         savedCities = JSON.parse(localStorage.getItem('cities'));
     } else {
         savedCities = [];
@@ -27,21 +27,33 @@ $(document).ready(function () {
 
     //This code creates new city buttons 
     $('#cities-btn').on('click', function () {
-        var newCity = $('<button>');
-        var cityInfo = $('#city-input').val().trim();
-        newCity.text(cityInfo);
-        newCity.attr('data-city', cityInfo.toLowerCase());
-        newCity.attr('type', 'button');
-        newCity.addClass('list-group-item list-group-item-action');
-        newCity.addClass('city-btn');
-        savedCities.push(newCity.text());
-        $('#cities').prepend(newCity);
-        $('#city-input').val('');
-        // console.log($('.city-btn'));
-        // console.log(savedCities);
+        if (!$('#city-input').val()) {
+            $('#city-input').val('');
+        } else {
+            var newCity = $('<button>');
+            var cityInfo = $('#city-input').val().trim();
+            newCity.text(cityInfo);
+            newCity.attr('data-city', cityInfo.toLowerCase());
+            newCity.attr('type', 'button');
+            newCity.addClass('list-group-item list-group-item-action');
+            newCity.addClass('city-btn');
+            savedCities.push(newCity.text());
+            $('#cities').prepend(newCity);
+            $('#city-input').val('');
+            // console.log($('.city-btn'));
+            // console.log(savedCities);
+            localStorage.setItem('cities', JSON.stringify(savedCities));
+        }
+    });
+
+    //This code adds interactivity to delete button
+    $('#delete-btn').on('click', function(){
+        $('#cities :first-child').remove();
+        savedCities.pop();
         localStorage.setItem('cities', JSON.stringify(savedCities));
     });
 
+    //This adds an Event Handler to every city button
     $('#cities').on('click', '.city-btn', function (event) {
         event.preventDefault();
         $('.city-current-weather').remove();
