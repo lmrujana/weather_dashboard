@@ -24,7 +24,7 @@ $(document).ready(function () {
             url: queryURL,
             method: 'GET'
         }).then(function (response) {
-            console.log(response);
+            // console.log(response);
             
             //This creates the city card where the current conditions are shown
             var cityCard = $('<div>');
@@ -45,25 +45,45 @@ $(document).ready(function () {
             var cityTemperature = $('<p>').text('Temperature: ' + tempFarenheit.toFixed() + '°F');
             var cityHumidity = $('<p>').text('Humidity: ' + response.main.humidity + '%');
             var cityWindSpeed = $('<p>').text('Wind Speed: ' + response.wind.speed + 'MPH');
+
+            cityCard.append(cityNameHeading);
+            cityCard.append(cityTemperature);
+            cityCard.append(cityHumidity);
+            cityCard.append(cityWindSpeed);
+
             var cityLat = response.coord.lat;
             var cityLon = response.coord.lon;
+
 
             //This API call gets the weather for the next 7 days and the uv index
             $.ajax({
                 url: `https://api.openweathermap.org/data/2.5/onecall?lat=${cityLat}&lon=${cityLon}&exclude=minutely,hourly,alerts&appid=${apiKey}`,
                 method: 'GET'
             }).then(function (responseDaily){
-                // console.log(responseDaily)
+                console.log(responseDaily)
+
+                var uvIndexValue = responseDaily.current.uvi;
+                var uvIndexBadge = $('<span>');
+                uvIndexBadge.text(uvIndexValue);
+
+                if(uvIndexValue <= 2){
+                    uvIndexBadge.addClass('badge badge-success');
+                } else if(uvIndexValue > 2 && uvIndexValue <= 5){
+                    uvIndexBadge.addClass('badge badge-warning');
+                } else if(uvIndexValue > 5){
+                    uvIndexBadge.addClass('badge badge-danger');
+                }
+
+                var uvIndex = $('<p>').text('UV Index: ');
+                uvIndex.append(uvIndexBadge);
+                cityCard.append(uvIndex);
 
             })
 
 
 
 
-            cityCard.append(cityNameHeading);
-            cityCard.append(cityTemperature);
-            cityCard.append(cityHumidity);
-            cityCard.append(cityWindSpeed);
+            
             $('#weather-main').append(cityCard);
         });
     });
