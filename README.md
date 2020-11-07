@@ -9,7 +9,7 @@ To retrive the information for this app we used the OpenWeather API. To get all 
 
 The app saves in local storage the latest cities that were searched, and displays them every time the user opens the app. As an additional feature, a delete button was added which removes the latest city from the DOM and local storage.
 
-![Weather App Screenshot](images/Weather App.png);
+![Weather App Screenshot](images/Weather-App.png);
 
 ## Limitations
 The user can enter any text in the input element. This will create a button regardless if it is a city or not. For future impovements, authentication for the city is desired.
