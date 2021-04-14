@@ -11,6 +11,13 @@ The app saves in local storage the latest cities that were searched, and display
 
 ![Weather App Screenshot](images/Weather-App.png)
 
+## Installation 
+To be able to use this app, users must create a config.js file in the root directory, with the following code in it:
+
+const config = {
+  apiKey: 'your API key from the Open Weather API'
+]
+
 ## Limitations
 The user can enter any text in the input element. This will create a button regardless if it is a city or not. For future impovements, authentication for the city is desired.
 
